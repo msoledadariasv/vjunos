@@ -1,0 +1,42 @@
+name: vjunossw
+mgmt:
+  network: jun
+  ipv4-subnet: 172.80.80.0/24
+topology:
+  nodes:
+    #ciscort:
+      #kind: cisco_iol
+      #image: vrnetlab/cisco_iol:17.12.01
+      #startup-config: cisco/config.partial
+
+    vswitch:
+      kind: juniper_vjunosswitch
+      image: vrnetlab/juniper_vjunos-switch:24.4R1.9
+      #startup-config: vjunos.cfg
+    
+       
+    PC1:
+      kind: linux
+      image: docker.io/esanchezv/kaliipv6v2.2:latest
+      exec:
+      - ip -6 route del default dev eth0  
+
+    PC2:
+      kind: linux
+      image: docker.io/esanchezv/kaliipv6v2.2:latest
+      exec:
+      - ip -6 route del default dev eth0  
+  
+    PC3:
+      kind: linux
+      image: docker.io/esanchezv/kaliipv6v2.2:latest
+      exec:
+      - ip -6 route del default dev eth0  
+
+    
+
+  links:
+    #- endpoints: ["ciscort:Ethernet0/1", "vswitch:ge-0/0/0"]
+    - endpoints: ["PC1:eth1", "vswitch:ge-0/0/1"]
+    - endpoints: ["PC2:eth1", "vswitch:ge-0/0/2"]
+    - endpoints: ["PC3:eth1", "vswitch:ge-0/0/3"]
